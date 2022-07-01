@@ -13,8 +13,5 @@ router.get('/registration',(req,res)=>{
     //res.render('pages/registration.ejs',{userName})
     res.render('pages/registration.ejs')
 })
-// router.delete('/logout',(req,res)=>{
-//     res.render('')
-//     console.log('i am in logout')
-// })
+
 export default router
