@@ -34,12 +34,13 @@ class controller {
   static login = async (data) => {
     try {
       const userData=JSON.parse(JSON.stringify(data));
-      console.log(userData)
-      const userValidation = await db.schema.findOne({where:{emailAddress:userData.emailAddress},raw:true});
-      console.log(userValidation)
+      // console.log('i am in login')
+      // console.log(data)
+      const userValidation = await db.schema.findOne({where:{emailAddress:data.emailAddress},raw:true});
+      //console.log(userValidation)
       if (!userValidation) return ({sucess:false,message:'email is not valid',status:500})
       const passValidation = await bcrypt.compare(
-        userData.password,
+        data.password,
         userValidation.password
       );
       if (!passValidation) return ({sucess:false,message:'password is not valid',status:500})
@@ -51,12 +52,10 @@ class controller {
           expiresIn: "1h",
         }
       );
-      // console.log('token genrated')
-      // console.log(accessToken)
-     //return  cookie('token',accessToken).json({sucess:true,status:200,message:'user loged in',token:accessToken})
+      
      return ({sucess:true,status:200,message:'user loged in',token:accessToken})
    
-    // res.cookie('token',accessToken).send(accessToken)
+    
      }
    catch (error) {
     //console.log(error);

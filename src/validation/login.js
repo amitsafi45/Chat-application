@@ -6,6 +6,7 @@ const schema_login=Joi.object({
     .alphanum()
     .min(3)
     .max(20)
-    .required()
+    .required(),
+    submit:Joi.string()
 })
 export default schema_login

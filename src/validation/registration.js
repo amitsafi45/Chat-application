@@ -1,6 +1,6 @@
 import Joi from 'joi'
 const schema_registration=Joi.object({
-    UserName:Joi.string()
+    userName:Joi.string()
     .alphanum()
     .min(3)
     .max(30)
@@ -11,6 +11,7 @@ const schema_registration=Joi.object({
     .alphanum()
     .min(3)
     .max(20)
-    .required()
+    .required(),
+    submit:Joi.string()
 })
 export default schema_registration
