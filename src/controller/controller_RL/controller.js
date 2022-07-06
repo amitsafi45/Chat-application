@@ -5,13 +5,20 @@ class controller {
   static insert = async (data) => {
     try {
    //      console.log('i am here')
-      const userData = JSON.parse(JSON.stringify(data));
-     // console.log(userData)
+      const user_check = JSON.parse(JSON.stringify(data));
+      const email_check = await db.schema.findOne({where:{emailAddress:user_check.emailAddress},raw:true});
+     if(email_check){
+      return ({
+        sucess:false,
+        status:500,
+         message:' these email are already use'
+     })}
+      // console.log(userData)
       const salt = await bcrypt.genSalt(15);
-      const hashPassword = await bcrypt.hash(userData.password, salt);
+      const hashPassword = await bcrypt.hash(user_check.password, salt);
       const Register={
-        UserName: userData.userName,
-        emailAddress:userData.emailAddress,
+        UserName: user_check.userName,
+        emailAddress:user_check.emailAddress,
         password: hashPassword
         }
        // console.log(Register)

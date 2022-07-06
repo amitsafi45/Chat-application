@@ -1,5 +1,6 @@
 import Sequelize, { DataTypes } from 'sequelize'
 import schema from './user_schema_registration.js'
+import roomSchema from './room.js'
 const sequelize=new Sequelize(process.env.DB_NAME,process.env.USER_NAME,process.env.PASSWORD,{
      host:process.env.HOST,
      dialect:process.env.DIALECT,
@@ -18,4 +19,5 @@ const db={}
  db.Sequelize=Sequelize
  db.sequelize=sequelize
  db.schema=schema(sequelize,DataTypes)
- export default db
+ db.roomSchema=roomSchema(sequelize,DataTypes)
+  export default db

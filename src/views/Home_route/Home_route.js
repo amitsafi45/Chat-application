@@ -13,7 +13,7 @@ router.get('/publicChat',verifys,(req,res)=>{
 
 
 })
-router.get('joinRoom',verifys,(req,res)=>{
+router.get('/joinRoom',verifys,(req,res)=>{
     res.render('Home_pages/joinRoom')
 })
 export default router

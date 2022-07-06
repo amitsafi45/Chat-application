@@ -4,6 +4,8 @@ import db from "./src/models/index.js";//database connection
 import account from "./src/route/router.js";//registration and login routes
 import verifys from "./src/middleware/verify.js";//token checking in header 
 import cookieParser from "cookie-parser";
+//import roomSchema from './src/models/room.js'
+import roomController from './src/controller/controller_socket/socket.js'
 import views_route from './src/views/route/routes.js'
 import Home_route from './src/views/Home_route/Home_route.js'
 import http from 'http'
@@ -42,6 +44,24 @@ io.on('connection', (socket) => {
     socket.on('chat message', (msg) => {
       io.emit('chat message', msg);
     });
+    socket.on('create room',async(data)=>{
+       await roomController.createRoom(data)
+      console.log(`data received is '${data}'`)
+    })
+    socket.on('join room',async(data)=>{
+       const resu=await roomController.findRoom(data)
+       if(resu.sucess===true){
+        io.socketsJoin(resu.roomname.roomName)
+        //io.to(resu.roomname.roomName).emit(msg);
+       // //io.emit('join chat',msg);
+          // socket.on('join chat',(msg)=>{
+          //   io.emit('join chat',msg);
+         // })
+         console.log(resu)
+       }else{
+        console.log(resu)
+       }
+    })
   
     socket.on('disconnect', () => {
         console.log('user disconnected');

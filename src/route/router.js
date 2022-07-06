@@ -1,5 +1,5 @@
 import controller from "../controller/controller_RL/controller.js";
-import express, { response } from "express";
+import express from "express";
 import schema_registration from "../validation/registration.js";
 import schema_login from "../validation/login.js";
 import bodyParser from "body-parser";
@@ -13,8 +13,14 @@ const urlencoded=bodyParser.urlencoded({extended:false})
        const result=await controller.login(data)
        console.log(result.message)
        console.log(result.token)
-      res.cookie('token',result.token).render('pages/home.ejs')
-      
+       console.log(result)
+       if(result.status === 500){
+           req.flash('user',result.message);
+            res.redirect('http://localhost:4000/chat/login')
+       }
+       else{
+         res.cookie('token',result.token).render('pages/home.ejs')
+       }
       }
       catch(err){
             req.flash('user',err.message);
