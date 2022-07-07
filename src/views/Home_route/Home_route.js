@@ -13,6 +13,9 @@ router.get('/publicChat',verifys,(req,res)=>{
 
 
 })
+router.get('/joinChatRoom',(req,res)=>{
+    res.render('Home_pages/joinChatRoom')
+})
 router.get('/joinRoom',verifys,(req,res)=>{
     res.render('Home_pages/joinRoom')
 })

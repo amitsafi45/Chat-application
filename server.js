@@ -37,10 +37,14 @@ app.use("/api",account);
 app.use("/home",Home_route)
 console.log(__dirname)
 console.log(__filename)
+var count=0;
 app.get('/api/logout',verifys,function(req, res){
    res.clearCookie("token").redirect('http://localhost:4000/chat/');
 });
 io.on('connection', (socket) => {
+    count++
+    // io.emit('user count',(count)) 
+     //console.log(count)
     socket.on('chat message', (msg) => {
       io.emit('chat message', msg);
     });
@@ -50,20 +54,23 @@ io.on('connection', (socket) => {
     })
     socket.on('join room',async(data)=>{
        const resu=await roomController.findRoom(data)
+       resu.counts=count
        if(resu.sucess===true){
-        io.socketsJoin(resu.roomname.roomName)
-        //io.to(resu.roomname.roomName).emit(msg);
-       // //io.emit('join chat',msg);
-          // socket.on('join chat',(msg)=>{
-          //   io.emit('join chat',msg);
-         // })
-         console.log(resu)
+          io.emit('join pass room',(resu))
+          
+          console.log(resu)
        }else{
         console.log(resu)
        }
+     
     })
+       socket.on('joinchat message', (msg) => {
+          io.emit('joinchat message', msg);
+       })
   
     socket.on('disconnect', () => {
+         count--
+         io.emit('user count',(count))
         console.log('user disconnected');
       });
 

@@ -31,13 +31,12 @@
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     if (input.value) {
-      socket.emit('join chat', input.value);
+      socket.emit('joinchat message', input.value);
       input.value = '';
     }
   });
 
-  socket.on('join chat', function(msg) {
-    console.log('i am here')
+  socket.on('joinchat message', function(msg) {
     var item = document.createElement('li');
     item.textContent = msg;
     messages.appendChild(item);

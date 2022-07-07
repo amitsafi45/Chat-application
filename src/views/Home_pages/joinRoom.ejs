@@ -18,7 +18,9 @@
                  <input type="text" class="form-control" placeholder="roomName" id="roomName">
                  <button type="submit" class="btn btn-primary" id="submit">join</button>
                </div>
-               
+               <div id="active_user">active user<br>
+                
+               </div>
                
              </form>     
      </div>
@@ -33,15 +35,24 @@
       const roomName= document.getElementById('roomName');
       const form=document.getElementById('form')
       const done=document.getElementById('submit')
+      //const active_user=document.getElementById('active_user')
+      
       form.addEventListener('submit', function(e) {
       e.preventDefault();
       if (roomName.value) {
        //pass data from client to server
-       console.log('event:join room')
-     socket.emit('join room',roomName.value);
-    // done.innerHTML=roomName.value
-     // roomName.value = '';
-   }
+       //console.log('event:join room')
+       socket.emit('join room',roomName.value);
+       
+      }
+       })
+     socket.on('join pass room',(data)=>{
+        document.getElementById('active_user').innerHTML=data.counts
+        console.log('i am here')
+         console.log(data)
+         if(data.sucess===true){
+           window.location='./joinChatRoom'
+         }
  });
    </script>
 </html>
